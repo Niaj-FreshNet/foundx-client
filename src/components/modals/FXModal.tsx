@@ -1,0 +1,66 @@
+import { ReactNode } from "react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@heroui/modal";
+import { Button } from "@heroui/button";
+
+interface IProps {
+  buttonText: string;
+  title: string;
+  children: ReactNode;
+  buttonVariant?:
+    | "flat"
+    | "shadow"
+    | "light"
+    | "solid"
+    | "bordered"
+    | "faded"
+    | "ghost"
+    | undefined;
+  buttonClassName?: string;
+}
+
+export default function FXModal({
+  buttonText,
+  title,
+  children,
+  buttonVariant = "light",
+  buttonClassName,
+}: IProps) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  return (
+    <>
+      <Button
+        className={buttonClassName}
+        variant={buttonVariant}
+        onPress={onOpen}
+      >
+        {buttonText}
+      </Button>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+              <ModalBody>{children}</ModalBody>
+              {/* <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Action
+                </Button>
+              </ModalFooter> */}
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
